@@ -14,13 +14,13 @@ export class CounterDeploy {
         this._deployerPrivateKey = privateKey
     }
 
-    connectCaver() : Caver {
+    private _connectCaver() : Caver {
         let caver = new Caver(BAOBAB_URL)
         return caver
     }
 
     async deploy() : Promise<void> {
-        let caver = this.connectCaver()
+        let caver = this._connectCaver()
 
         let deployerKeyring = caver.wallet.newKeyring(this._deployerAddr, this._deployerPrivateKey)
         //caver.wallet.add(deployerKeyring)
@@ -29,14 +29,13 @@ export class CounterDeploy {
         let rawContract = require(this._compiledContractPath)
         let contract = caver.contract.create(rawContract.abi)
 
-        let receipt = await contract.deploy({
+        let contractInst = await contract.deploy({
             from: deployerKeyring.address,
             gas: 250000,
         },
         rawContract.bytecode
         )
 
-        console.log(`receipr = ${receipt}`)
-        receipt.options.address
+        console.log(`deploy address = ${contractInst.options.address}`)
     }
 }
