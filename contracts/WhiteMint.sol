@@ -5,10 +5,11 @@ import "@klaytn/contracts/math/SafeMath.sol";
 
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/roles/WhitelistedRole.sol";
 
 import "@klaytn/contracts/token/KIP17/IKIP17.sol";
 
-contract WhiteMint is Ownable, ReentrancyGuard {
+contract WhiteMint is Ownable, ReentrancyGuard, WhitelistedRole {
 
     using SafeMath for uint256;
     using Counters for Counters.Counter;
@@ -31,7 +32,7 @@ contract WhiteMint is Ownable, ReentrancyGuard {
     //Counters.Counter private _mintedCount;
 
     // address 별 mint 된 count
-    mapping(address => uint) _mintedPerAddress;
+    mapping(address => uint8) _mintedPerAddress;
 
     // 생성 당시 배포할 tokenId를 
     //uint256[] private _remainTokens;
@@ -55,6 +56,18 @@ contract WhiteMint is Ownable, ReentrancyGuard {
     // fallback함수
     function() external payable {
         //
+    }
+
+    function addWhitelisted(address account, uint8 quntity) public onlyWhitelistAdmin {
+        _addWhitelisted(account);
+
+        _mintedPerAddress[account] = quntity;
+    }
+
+    function removeWhitelisted(address account) public onlyWhitelistAdmin {
+        _removeWhitelisted(account);
+
+        delete _mintedPerAddress[account];
     }
 
     function withdraw() public onlyOwner {

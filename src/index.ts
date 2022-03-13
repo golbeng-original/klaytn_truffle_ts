@@ -10,6 +10,9 @@ import * as counter from "./counter";
 import * as testValue from "./testValue";
 
 
+import * as TestKIP17 from './whiteMint/kip17'
+import * as WhiteMint from './whiteMint/whiteMint'
+
 //testMakePerson()
 
 const BAOBAB_URL = 'https://kaikas.baobab.klaytn.net:8651/';
@@ -145,8 +148,25 @@ async function main() {
     //await testValue.deploy(test1_addr, test1_privatekey);
 
     //await testValue.sendTest(test2_addr, test2_privatekey);
-    await testValue.withDraw(test1_addr, test1_privatekey);
+    //await testValue.withDraw(test1_addr, test1_privatekey);
 
+    //await TestKIP17.deploy()
+
+    //await WhiteMint.deploy()
+
+    /*
+    await WhiteMint.addWhiteList(
+        '0xf753379A4cca29b6b4f6B5c615a2fa1E2481daF9',
+        '0x21B05aA2DB77ED113e5963a820F5Ce1f64e17Eb8',
+        '0x6017e4Fe4e824B94343D19c7c5e9f5510CFbD1db',)
+    */
+
+    //WhiteMint.functionSelector()
+    // 0x3af32abf
+
+    //await WhiteMint.executeNormal('0xf753379A4cca29b6b4f6B5c615a2fa1E2481daF9')
+
+    await WhiteMint.smartContractExecution('0xf753379A4cca29b6b4f6B5c615a2fa1E2481daF9')
 
     //await makeTx()
 
